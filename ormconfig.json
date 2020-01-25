@@ -1,0 +1,15 @@
+{
+	"type": "sqlite",
+	"database": ":memory:",
+	"dropSchema": true,
+	"synchronize": true,
+	"logging": false,
+	"entities": ["src/db/entity/**/!(*.spec).ts"],
+	"migrations": ["src/db/migration/**/!(*.spec).ts"],
+	"subscribers": ["src/db/subscriber/**/!(*.spec).ts"],
+	"cli": {
+		"entitiesDir": "src/db/entity",
+		"migrationsDir": "src/db/migration",
+		"subscribersDir": "src/db/subscriber"
+	}
+}
