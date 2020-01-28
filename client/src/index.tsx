@@ -1,23 +1,14 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+import { CookiesProvider } from 'react-cookie'
 import './index.css'
 import App from './App'
 import * as serviceWorker from './serviceWorker'
 
-import { BrowserRouter, Switch, Route } from 'react-router-dom'
-import { Chat } from './chat/Chat'
-
 ReactDOM.render(
-	<BrowserRouter>
-		<Switch>
-			<Route path="/chat">
-				<Chat />
-			</Route>
-			<Route path="/">
-				<App />
-			</Route>
-		</Switch>
-	</BrowserRouter>,
+	<CookiesProvider>
+		<App />
+	</CookiesProvider>,
 	document.getElementById('root')
 )
 
