@@ -8,7 +8,9 @@
 		"@types/node": "^13.1.2",
 		"@types/socket.io": "^2.1.4",
 		"@types/socket.io-client": "^1.4.32",
+		"concurrently": "^5.1.0",
 		"jest": "^24.9.0",
+		"nodemon": "^2.0.2",
 		"prettier": "^1.19.1",
 		"socket.io-client": "^2.3.0",
 		"sqlite3": "^4.1.1",
@@ -35,6 +37,8 @@
 	"scripts": {
 		"start": "ts-node --files src/index.ts",
 		"start:memory": "ts-node --files src/util/memoryServer.ts",
+		"start:watch": "nodemon",
+		"start:both": "concurrently -n \"client,server\" -i false -c magenta,cyan \"cd ../client && yarn start\" \"yarn start:watch\"",
 		"test": "jest --runInBand"
 	}
 }
