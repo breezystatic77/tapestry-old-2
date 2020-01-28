@@ -5,7 +5,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import { Chat } from './chat/Chat'
 import Site from './Site'
 import { Colors, ContextMenu } from '@blueprintjs/core'
-import { useKey, registeredKeys } from './hooks/useKey'
+import { useKey, registeredKeys } from './controllers/ShortcutController'
 import ShortcutHelp from './components/ShortcutHelp'
 
 const AppWrapper = styled.div`

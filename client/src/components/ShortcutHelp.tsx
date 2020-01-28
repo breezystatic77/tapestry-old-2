@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useKey, registeredKeys } from '../hooks/useKey'
+import { useKey, registeredKeys } from '../controllers/ShortcutController'
 import { Overlay, Card } from '@blueprintjs/core'
 import CenterChildren from './CenterChildren'
 import styled from 'styled-components'
