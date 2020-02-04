@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import { useHotkeys } from 'react-hotkeys-hook'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
@@ -29,7 +29,13 @@ const TapestryContext = React.createContext({
 export const useTapestryContext = () => React.useContext(TapestryContext)
 
 const App: React.FC = () => {
-	const [darkMode, setDarkMode] = useState(true)
+	const initialDarkMode = localStorage.getItem('dark-mode') == 'true'
+
+	const [darkMode, setDarkMode] = useState(initialDarkMode)
+
+	useEffect(() => {
+		localStorage.setItem('dark-mode', String(darkMode))
+	}, [darkMode])
 
 	const showContextMenu = (
 		e: React.MouseEvent<Element, MouseEvent>,
@@ -44,6 +50,8 @@ const App: React.FC = () => {
 			darkMode
 		)
 	}
+
+	useKey('N', 'Toggle Night Mode', () => setDarkMode(darkMode => !darkMode), [])
 
 	return (
 		<AppWrapper id="app" className={darkMode ? 'bp3-dark' : ''}>
