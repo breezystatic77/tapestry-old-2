@@ -35,7 +35,7 @@ const initApi = (server: TapestryServer): Express.Router => {
 			const newUser = await createNewUser(email, password)
 			res.status(200).json(
 				resJson({
-					user: newUser.toApiUser()
+					user: await newUser.toApiUser()
 				})
 			)
 		} catch (err) {

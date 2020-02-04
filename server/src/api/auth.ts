@@ -10,7 +10,7 @@ import { Character } from '../db/entity/Character'
 
 const authRouter = Express.Router()
 
-authRouter.get('/token', needsEmailPassword, (req, res) => {
+authRouter.post('/token', needsEmailPassword, (req, res) => {
 	// TODO
 	res.json({
 		token: req.user.createJwt()

@@ -7,6 +7,7 @@ import Site from './Site'
 import { Colors, ContextMenu } from '@blueprintjs/core'
 import { useKey, registeredKeys } from './controllers/ShortcutController'
 import ShortcutHelp from './components/ShortcutHelp'
+import { setStorage, getStorage } from './controllers/LocalStorageController'
 
 const AppWrapper = styled.div`
 	width: 100%;
@@ -29,12 +30,14 @@ const TapestryContext = React.createContext({
 export const useTapestryContext = () => React.useContext(TapestryContext)
 
 const App: React.FC = () => {
-	const initialDarkMode = localStorage.getItem('dark-mode') == 'true'
+	const initialDarkMode = getStorage('dark-mode') === 'true'
 
 	const [darkMode, setDarkMode] = useState(initialDarkMode)
 
 	useEffect(() => {
-		localStorage.setItem('dark-mode', String(darkMode))
+		setStorage({
+			'dark-mode': String(darkMode)
+		})
 	}, [darkMode])
 
 	const showContextMenu = (

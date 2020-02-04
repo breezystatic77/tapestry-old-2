@@ -7,7 +7,8 @@ dotenv.config()
 const config = {
 	JWT_SECRET: process.env.JWT_SECRET,
 	// PROFILES_FOLDER: process.env.PROFILES_FOLDER
-	PROFILES_FOLDER: path.join(homedir() + '/tapestry_files/profiles')
+	PROFILES_FOLDER: path.join(homedir() + '/tapestry_files/profiles'),
+	CREATE_USERS_VERIFIED: process.env.CREATE_USERS_VERIFIED
 }
 
 for (let k in config) {

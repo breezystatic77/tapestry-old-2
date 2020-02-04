@@ -1,15 +1,22 @@
 import { User, UserStatus } from '../entity/User'
 import { getConnection } from 'typeorm'
 import { Character } from '../entity/Character'
+import config from '../../util/config'
 
 /**
  * Create and save a new user to the db
  */
-export const createNewUser = async (email: string, password: string) => {
+export const createNewUser = async (
+	email: string,
+	password: string,
+	status: UserStatus = config.CREATE_USERS_VERIFIED
+		? UserStatus.Verified
+		: UserStatus.Unverified
+) => {
 	const user = new User()
 
 	user.email = email
-	user.status = UserStatus.Unverified
+	user.status = status
 	await user.hashPassword(password)
 
 	await user.validate()
@@ -22,9 +29,12 @@ export const createNewUser = async (email: string, password: string) => {
 
 	if (existingUser) throw new Error(`Email ${email} already in use`)
 
-	return await getConnection()
+	const createdUser = await getConnection()
 		.getRepository(User)
 		.save(user)
+
+	console.log(`new user created: ${createdUser.email}`)
+	return createdUser
 }
 /**
  * Attempts to change a User record to be verified,
