@@ -1,5 +1,5 @@
 import React from 'react'
-import { BrowserRouter, Route, Switch } from 'react-router-dom'
+import { BrowserRouter, Route, Switch, match } from 'react-router-dom'
 import styled from 'styled-components'
 import Register from './pages/Register'
 import Login from './pages/Login'
@@ -43,7 +43,7 @@ const SiteFooter = styled.div`
 	flex-grow: 0;
 `
 
-const Site: React.FC = () => {
+const Site: React.FC<{ match: any }> = ({ match }) => {
 	return (
 		<SiteCenterer>
 			<SiteMain>

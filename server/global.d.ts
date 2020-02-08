@@ -16,6 +16,14 @@ declare global {
 			id: ID
 		}
 
+		/** An response body from the Tapestry API */
+		type Res<T> = {
+			ok: boolean
+			errorCode?: number
+			errorMessage?: string
+			body: T
+		}
+
 		interface ApiUser {
 			email: string
 			status: UserStatus

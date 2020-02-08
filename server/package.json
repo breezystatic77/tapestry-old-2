@@ -38,7 +38,7 @@
 		"start": "ts-node --files src/index.ts",
 		"start:memory": "ts-node --files src/util/memoryServer.ts",
 		"start:watch": "nodemon",
-		"start:both": "concurrently -n \"client,server\" -i false -c magenta,cyan \"cd ../client && yarn start\" \"yarn start:watch\"",
+		"start:both": "concurrently -n \"client,server\" -i false -c magenta,cyan \"cd ../client && yarn start >/dev/null\" \"yarn start:watch\"",
 		"test": "jest --runInBand"
 	}
 }

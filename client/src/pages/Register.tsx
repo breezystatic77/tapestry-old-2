@@ -4,20 +4,21 @@ import LoginSheet, { LoginCard } from '../components/LoginSheet'
 import styled, { css } from 'styled-components'
 import CenterChildren from '../components/CenterChildren'
 import { useTapestryContext } from '../App'
-import { useKey } from '../controllers/ShortcutController'
 import { apiCall } from '../controllers/ApiController'
-import { loginAndStoreToken } from './Login'
-import { setStorage } from '../controllers/LocalStorageController'
+import { useAuthContext } from '../hooks/AuthContext'
+import { Redirect } from 'react-router-dom'
 
 const Register: React.FC = () => {
 	const { setDarkMode } = useTapestryContext()
 
 	const [loading, setLoading] = useState(false)
 
+	const { login, loggedIn } = useAuthContext()
+
 	const handleSubmit = async (email: string, password: string) => {
 		setLoading(true)
 		try {
-			await apiCall('/register', {
+			const res = await apiCall('/register', {
 				method: 'POST',
 				useAuth: false,
 				body: {
@@ -25,17 +26,7 @@ const Register: React.FC = () => {
 					password
 				}
 			})
-		} catch (err) {
-			console.error(err)
-		}
-
-		try {
-			console.log('logging in')
-			const { token } = await loginAndStoreToken(email, password)
-			setStorage({
-				'user-token': token
-			})
-			console.log(`set token of length ${token.length}`)
+			if (res.ok) await login(email, password)
 		} catch (err) {
 			console.error(err)
 		}
@@ -44,6 +35,7 @@ const Register: React.FC = () => {
 
 	return (
 		<CenterChildren>
+			{loggedIn && !loading ? <Redirect to="/" /> : null}
 			<LoginCard>
 				<LoginSheet
 					onSubmit={handleSubmit}

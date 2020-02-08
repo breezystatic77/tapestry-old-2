@@ -8,19 +8,12 @@ export const wait = async (ms: number): Promise<void> => {
 	})
 }
 
-export type ResponseJson<T extends object> = {
-	ok: boolean
-	errorCode?: number
-	errorMessage?: string
-	body: T
-}
-
-export const resJsonOk = (): ResponseJson<{}> => ({
+export const resJsonOk = (): Tapestry.Res<{}> => ({
 	ok: true,
 	body: {}
 })
 
-export const resJson = <T extends object>(body: T): ResponseJson<T> => ({
+export const resJson = <T>(body: T): Tapestry.Res<T> => ({
 	ok: true,
 	body
 })
@@ -28,7 +21,7 @@ export const resJson = <T extends object>(body: T): ResponseJson<T> => ({
 export const resJsonError = (
 	code: number,
 	message: string
-): ResponseJson<{}> => ({
+): Tapestry.Res<{}> => ({
 	ok: false,
 	errorCode: code,
 	errorMessage: message,

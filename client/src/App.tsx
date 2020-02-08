@@ -8,6 +8,7 @@ import { Colors, ContextMenu } from '@blueprintjs/core'
 import { useKey, registeredKeys } from './controllers/ShortcutController'
 import ShortcutHelp from './components/ShortcutHelp'
 import { setStorage, getStorage } from './controllers/LocalStorageController'
+import { AuthContextProvider } from './hooks/AuthContext'
 
 const AppWrapper = styled.div`
 	width: 100%;
@@ -65,17 +66,15 @@ const App: React.FC = () => {
 					showContextMenu
 				}}
 			>
-				<ShortcutHelp />
-				<BrowserRouter>
-					<Switch>
-						<Route path="/chat">
-							<Chat />
-						</Route>
-						<Route path="/">
-							<Site />
-						</Route>
-					</Switch>
-				</BrowserRouter>
+				<AuthContextProvider>
+					<ShortcutHelp />
+					<BrowserRouter>
+						<Switch>
+							<Route path="/chat" component={Chat} />
+							<Route path="/" component={Site} />
+						</Switch>
+					</BrowserRouter>
+				</AuthContextProvider>
 			</TapestryContext.Provider>
 		</AppWrapper>
 	)

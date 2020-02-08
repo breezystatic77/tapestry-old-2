@@ -3,6 +3,7 @@ import { Navbar, Alignment, Menu, Button } from '@blueprintjs/core'
 import { useTapestryContext } from '../App'
 import { useLocation, useHistory, Link } from 'react-router-dom'
 import { useCookies } from 'react-cookie'
+import { useAuthContext } from '../hooks/AuthContext'
 
 const MagicMenu = (
 	<Menu>
@@ -16,9 +17,7 @@ const SiteHeader: React.FC = () => {
 
 	const history = useHistory()
 
-	const [cookies, setCookie, removeCookie] = useCookies(['token'])
-
-	const isLoggedIn = !!cookies['token']
+	const { loggedIn, logout } = useAuthContext()
 
 	return (
 		<Navbar style={{ background: 'none', border: 'none', boxShadow: 'none' }}>
@@ -34,11 +33,15 @@ const SiteHeader: React.FC = () => {
 				</Navbar.Heading>
 			</Navbar.Group>
 			<Navbar.Group align={Alignment.RIGHT}>
-				{isLoggedIn ? (
+				{loggedIn ? (
 					<>
-						<Button minimal>Chat</Button>
+						<Button minimal onClick={() => history.push('/chat')}>
+							Chat
+						</Button>
 						<Navbar.Divider />
-						<Button minimal>Log Out</Button>
+						<Button minimal onClick={logout}>
+							Log Out
+						</Button>
 					</>
 				) : (
 					<>

@@ -2,43 +2,56 @@ import React, { useState } from 'react'
 import { apiCall } from '../controllers/ApiController'
 import {
 	setStorage,
-	removeStorage
+	removeStorage,
+	getStorage
 } from '../controllers/LocalStorageController'
 
-const AuthContext: React.Context<Partial<{
-	login: (email: string, password: string) => Promise<{ token: string }>
-	logout: () => void
+type IAuthContext = {
+	login: (
+		email: string,
+		password: string
+	) => Promise<Tapestry.Res<{ token: string }>>
+	logout: () => Promise<void>
 	loggedIn: boolean
-}>> = React.createContext({})
+}
 
-export const useAuthContext = React.useContext(AuthContext)
+const AuthContext: React.Context<IAuthContext> = React.createContext(
+	{} as IAuthContext
+)
+
+export const useAuthContext = () => React.useContext(AuthContext)
 
 export const AuthContextProvider: React.FC = ({ children }) => {
-	const [loggedIn, setLoggedIn] = useState(false)
+	const [loggedIn, setLoggedIn] = useState(() => !!getStorage('user-token'))
 
 	return (
 		<AuthContext.Provider
 			value={{
 				login: async (email: string, password: string) => {
-					const res = await apiCall('/auth/token', {
-						method: 'POST',
-						useAuth: false,
-						body: {
-							email,
-							password
-						}
-					})
+					if (!email) console.error('no email provided')
+					if (!password) console.error('no password provided')
 
-					const body: { token: string } = await res.json()
-					if (body.token) {
+					const res: Tapestry.Res<{ token: string }> = await apiCall(
+						'/auth/token',
+						{
+							method: 'POST',
+							useAuth: false,
+							body: {
+								email,
+								password
+							}
+						}
+					)
+
+					if (res.body && res.body.token) {
 						setStorage({
-							'user-token': body.token
+							'user-token': res.body.token
 						})
 						setLoggedIn(true)
 					}
-					return body
+					return res
 				},
-				logout: () => {
+				logout: async () => {
 					removeStorage('user-token')
 					setLoggedIn(false)
 				},

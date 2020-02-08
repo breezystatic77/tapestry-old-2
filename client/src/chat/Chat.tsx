@@ -7,10 +7,11 @@ export const ChatContext = React.createContext({
 
 export const useChatContext = () => React.useContext(ChatContext)
 
-export const Chat: React.FC = () => {
+export const Chat: React.FC<{ match: any }> = ({ match }) => {
 	return (
 		<div id="chat">
 			<h1>Chat.</h1>
+			<h1>Not Connected.</h1>
 		</div>
 	)
 }

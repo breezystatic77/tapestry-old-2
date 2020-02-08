@@ -1,4 +1,6 @@
 import { getStorage } from './LocalStorageController'
+import { Toaster } from '@blueprintjs/core'
+import { toast } from './ToasterController'
 
 export const SOURCE_URL = 'http://localhost:3000/api/v1'
 
@@ -23,7 +25,10 @@ export interface CallOpts {
  * @param url url that comes after `http://website/api/v1...`
  * @param opts options
  */
-export const apiCall = async (url: string, opts: Partial<CallOpts>) => {
+export const apiCall = async <T = {}>(
+	url: string,
+	opts?: Partial<CallOpts>
+) => {
 	const options: CallOpts = {
 		method: 'GET',
 		useAuth: true,
@@ -52,5 +57,16 @@ export const apiCall = async (url: string, opts: Partial<CallOpts>) => {
 		headers,
 		body: JSON.stringify(options.body)
 	})
-	return res
+
+	const body = (await res.json()) as Tapestry.Res<T>
+	if (body.ok) {
+		console.log(body)
+	} else {
+		console.error('API call error', body)
+		toast.show({
+			intent: 'danger',
+			message: `${res.status} Error: "${body.errorMessage}"`
+		})
+	}
+	return body
 }
