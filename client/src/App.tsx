@@ -9,6 +9,7 @@ import { useKey, registeredKeys } from './controllers/ShortcutController'
 import ShortcutHelp from './components/ShortcutHelp'
 import { setStorage, getStorage } from './controllers/LocalStorageController'
 import { AuthContextProvider } from './hooks/AuthContext'
+import { ChatClientContextProvider } from './hooks/ChatContext'
 
 const AppWrapper = styled.div`
 	width: 100%;
@@ -70,7 +71,12 @@ const App: React.FC = () => {
 					<ShortcutHelp />
 					<BrowserRouter>
 						<Switch>
-							<Route path="/chat" component={Chat} />
+							<Route path="/chat" exact>
+								<ChatClientContextProvider>
+									<Chat />
+								</ChatClientContextProvider>
+							</Route>
+							<Route path="/c/:characterId" />
 							<Route path="/" component={Site} />
 						</Switch>
 					</BrowserRouter>

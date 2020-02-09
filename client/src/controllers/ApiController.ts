@@ -17,7 +17,7 @@ type RequestMethod = 'GET' | 'POST' | 'PUT' | 'DELETE'
 export interface CallOpts {
 	method: RequestMethod
 	useAuth: boolean
-	body: { [key: string]: string }
+	body?: { [key: string]: string }
 }
 
 /**
@@ -32,7 +32,7 @@ export const apiCall = async <T = {}>(
 	const options: CallOpts = {
 		method: 'GET',
 		useAuth: true,
-		body: {},
+		body: undefined,
 		...opts
 	}
 

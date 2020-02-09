@@ -1,13 +1,14 @@
 // import { useHotkeys } from 'react-hotkeys-hook'
 import hotkeys from 'hotkeys-js'
 import { useEffect } from 'react'
+import { toast } from './ToasterController'
 
 export const registeredKeys: { [keys: string]: string } = {}
 
 export function useKey(
 	keys: string,
 	desc: string,
-	cb: () => void,
+	cb: () => void | Promise<void>,
 	deps?: any[]
 ): void
 
@@ -15,8 +16,8 @@ export function useKey(
 	keys: string,
 	desc: string,
 	cb: {
-		down?: () => void
-		up?: () => void
+		down?: () => void | Promise<void>
+		up?: () => void | Promise<void>
 	},
 	deps?: any[]
 ): void
@@ -28,6 +29,14 @@ export function useKey(
 	deps?: any[]
 ): void {
 	useEffect(() => {
+		if (!!registeredKeys[keys]) {
+			toast.show({
+				icon: 'warning-sign',
+				intent: 'warning',
+				message: `Key '${keys}' already bound! Tried to bind to '${desc}', was bound to ${registeredKeys[keys]}`
+			})
+		}
+
 		if (typeof cb == 'object') {
 			hotkeys(keys, { keyup: !!cb.up }, (e, hke) => {
 				e.preventDefault()

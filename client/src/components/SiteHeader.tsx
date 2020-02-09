@@ -12,6 +12,24 @@ const MagicMenu = (
 	</Menu>
 )
 
+const LinkButton: React.FC<{ href: string; title: string; icon?: any }> = ({
+	href,
+	title,
+	icon
+}) => {
+	const history = useHistory()
+	return (
+		<Button
+			minimal
+			active={history.location.pathname === href}
+			onClick={() => history.push(href)}
+			icon={icon}
+		>
+			{title}
+		</Button>
+	)
+}
+
 const SiteHeader: React.FC = () => {
 	const { showContextMenu } = useTapestryContext()
 
@@ -31,13 +49,18 @@ const SiteHeader: React.FC = () => {
 				>
 					Tapestry
 				</Navbar.Heading>
+				{loggedIn ? (
+					<>
+						<Navbar.Divider />
+						<LinkButton href="/chat" icon="chat" title="Chat" />{' '}
+					</>
+				) : null}
 			</Navbar.Group>
 			<Navbar.Group align={Alignment.RIGHT}>
 				{loggedIn ? (
 					<>
-						<Button minimal onClick={() => history.push('/chat')}>
-							Chat
-						</Button>
+						<LinkButton href="/my/characters" title="Characters" />
+						<LinkButton href="/my/account" title="Account" />
 						<Navbar.Divider />
 						<Button minimal onClick={logout}>
 							Log Out
@@ -45,16 +68,8 @@ const SiteHeader: React.FC = () => {
 					</>
 				) : (
 					<>
-						<Button minimal icon="plus" onClick={() => history.push('/login')}>
-							Login
-						</Button>
-						<Button
-							minimal
-							icon="log-in"
-							onClick={() => history.push('/register')}
-						>
-							Sign Up
-						</Button>
+						<LinkButton href="/login" title="Login" icon="log-in" />
+						<LinkButton href="/register" title="Sign Up" icon="plus" />
 					</>
 				)}
 			</Navbar.Group>

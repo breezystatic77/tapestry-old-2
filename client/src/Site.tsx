@@ -52,20 +52,11 @@ const Site: React.FC<{ match: any }> = ({ match }) => {
 				</SiteHeaderWrap>
 				<SiteContent>
 					<Switch>
-						<Route path="/register">
-							<Register />
-						</Route>
-						<Route path="/login">
-							<Login />
-						</Route>
-						<Route path="/my/account">
-							<MyAccount />
-						</Route>
-						<Route path="/my/characters"></Route>
-						<Route path="/c/:characterId"></Route>
-						<Route path="/">
-							<Splash />
-						</Route>
+						<Route path="/register" component={Register} />
+						<Route path="/login" component={Login} />
+						<Route path="/my/account" component={MyAccount} />
+						<Route path="/my/characters" component={MyCharacters} />
+						<Route path="/" component={Splash} />
 					</Switch>
 				</SiteContent>
 				<SiteFooter>

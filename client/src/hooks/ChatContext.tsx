@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 
 import { apiCall } from '../controllers/ApiController'
-import { io, initIo } from '../chat/chat'
+import { io, initIo } from '../controllers/chat'
 
 type ConnectionStatus =
 	| 'disconnected'
@@ -14,6 +14,7 @@ type IChatContext = {
 	characterId: string
 	connectionStatus: ConnectionStatus
 	connectAs: (characterId: string) => Promise<void>
+	disconnect: () => void
 }
 
 const ChatContext = React.createContext({} as IChatContext)
@@ -32,6 +33,10 @@ export const ChatClientContextProvider: React.FC = ({ children }) => {
 			setConnectionStatus('connecting')
 			io.open()
 
+			io.on('disconnect', () => {
+				setConnectionStatus('disconnected')
+			})
+
 			io.on('connect', async () => {
 				setConnectionStatus('authenticating')
 				const res = await apiCall<{ token: string }>(
@@ -39,8 +44,7 @@ export const ChatClientContextProvider: React.FC = ({ children }) => {
 				)
 
 				if (!res.ok) {
-					setConnectionStatus('disconnected')
-					io.close()
+					disconnect()
 					return resolve()
 				}
 
@@ -58,9 +62,13 @@ export const ChatClientContextProvider: React.FC = ({ children }) => {
 		})
 	}
 
+	const disconnect = () => {
+		io.disconnect()
+	}
+
 	return (
 		<ChatContext.Provider
-			value={{ io, characterId, connectionStatus, connectAs }}
+			value={{ io, characterId, connectionStatus, connectAs, disconnect }}
 		>
 			{children}
 		</ChatContext.Provider>
