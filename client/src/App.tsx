@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
-import { useHotkeys } from 'react-hotkeys-hook'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import { Chat } from './chat/Chat'
 import Site from './Site'
@@ -10,6 +9,7 @@ import ShortcutHelp from './components/ShortcutHelp'
 import { setStorage, getStorage } from './controllers/LocalStorageController'
 import { AuthContextProvider } from './hooks/AuthContext'
 import { ChatClientContextProvider } from './hooks/ChatContext'
+import ErrorPage404 from './pages/404'
 
 const AppWrapper = styled.div`
 	width: 100%;
@@ -71,13 +71,14 @@ const App: React.FC = () => {
 					<ShortcutHelp />
 					<BrowserRouter>
 						<Switch>
-							<Route path="/chat" exact>
+							<Route exact path="/chat">
 								<ChatClientContextProvider>
 									<Chat />
 								</ChatClientContextProvider>
 							</Route>
-							<Route path="/c/:characterId" />
+							<Route exact path="/c/:characterId" />
 							<Route path="/" component={Site} />
+							<Route component={ErrorPage404} />
 						</Switch>
 					</BrowserRouter>
 				</AuthContextProvider>

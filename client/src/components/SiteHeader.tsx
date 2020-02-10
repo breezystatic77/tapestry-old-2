@@ -24,6 +24,7 @@ const LinkButton: React.FC<{ href: string; title: string; icon?: any }> = ({
 			active={history.location.pathname === href}
 			onClick={() => history.push(href)}
 			icon={icon}
+			style={{ margin: '0px 2px' }}
 		>
 			{title}
 		</Button>

@@ -51,9 +51,11 @@ const initApi = (server: TapestryServer): Express.Router => {
 			.getRepository(User)
 			.findOne(email)
 
-		res.json(
+		if (!user) return res.json(resJsonError(0, 'user does not exist'))
+
+		return res.json(
 			resJson({
-				me: user.toApiUser()
+				me: await user.toApiUser()
 			})
 		)
 	})

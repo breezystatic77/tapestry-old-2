@@ -4,6 +4,7 @@ import { useKey } from '../controllers/ShortcutController'
 import { useChatContext } from '../hooks/ChatContext'
 import { Button } from '@blueprintjs/core'
 import { apiCall } from '../controllers/ApiController'
+import { characterNameList } from '../utils'
 
 export const Chat: React.FC = () => {
 	const { io, connectAs, connectionStatus } = useChatContext()
@@ -22,7 +23,7 @@ export const Chat: React.FC = () => {
 
 	useEffect(() => {
 		apiCall<any>('/me').then(res => {
-			setMe(res)
+			if (res.body) setMe(characterNameList(res.body.me))
 		})
 	}, [])
 

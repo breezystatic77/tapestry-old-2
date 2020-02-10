@@ -7,6 +7,7 @@ import MyAccount from './pages/MyAccount'
 import MyCharacters from './pages/MyCharacters'
 import Splash from './pages/Splash'
 import SiteHeader from './components/SiteHeader'
+import ErrorPage404 from './pages/404'
 
 const SiteCenterer = styled.div`
 	width: 100%;
@@ -52,11 +53,12 @@ const Site: React.FC<{ match: any }> = ({ match }) => {
 				</SiteHeaderWrap>
 				<SiteContent>
 					<Switch>
-						<Route path="/register" component={Register} />
-						<Route path="/login" component={Login} />
-						<Route path="/my/account" component={MyAccount} />
-						<Route path="/my/characters" component={MyCharacters} />
-						<Route path="/" component={Splash} />
+						<Route exact path="/register" component={Register} />
+						<Route exact path="/login" component={Login} />
+						<Route exact path="/my/account" component={MyAccount} />
+						<Route exact path="/my/characters" component={MyCharacters} />
+						<Route exact path="/" component={Splash} />
+						<Route component={ErrorPage404} />
 					</Switch>
 				</SiteContent>
 				<SiteFooter>

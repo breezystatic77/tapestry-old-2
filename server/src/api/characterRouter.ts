@@ -44,6 +44,8 @@ characterRouter.put('/:characterId', needsJwtCharacter, async (req, res) => {
 		res
 			.status(403)
 			.json(resJsonError(0, `Not authorized to edit this character`))
+
+	// TODO edit character
 })
 
 characterRouter.delete('/:characterId', needsJwtUser, async (req, res) => {

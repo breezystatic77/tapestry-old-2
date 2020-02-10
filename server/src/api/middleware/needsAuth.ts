@@ -68,14 +68,14 @@ export const needsJwtUser = (
 	next: Express.NextFunction
 ) => {
 	const token = getToken(req)
-	if (!token) return res.status(401).send(resJsonError(0, `needs user token`))
+	if (!token) return res.status(401).send(resJsonError(40, `needs user token`))
 
 	try {
 		const email = jwtUser(token)
 		req.userEmail = email
 		next()
 	} catch (err) {
-		res.status(401).send(resJsonError(0, `invalid user token`))
+		res.status(401).send(resJsonError(40, `invalid user token`))
 	}
 }
 
