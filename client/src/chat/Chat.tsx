@@ -5,6 +5,7 @@ import { useChatContext } from '../hooks/ChatContext'
 import { Button } from '@blueprintjs/core'
 import { apiCall } from '../controllers/ApiController'
 import { characterNameList } from '../utils'
+import CharacterPicker from '../components/CharacterPicker'
 
 export const Chat: React.FC = () => {
 	const { io, connectAs, connectionStatus } = useChatContext()
@@ -22,8 +23,8 @@ export const Chat: React.FC = () => {
 	const [me, setMe] = useState<any>(null)
 
 	useEffect(() => {
-		apiCall<any>('/me').then(res => {
-			if (res.body) setMe(characterNameList(res.body.me))
+		apiCall<any>('/me').then(async res => {
+			if (res.body) setMe(res.body.me)
 		})
 	}, [])
 
@@ -37,6 +38,9 @@ export const Chat: React.FC = () => {
 			</h1>
 			<Button onClick={() => connectAs('grebmong')}>Connect?</Button>
 			<p>me:</p>
+			{me ? (
+				<CharacterPicker characters={me.characters} onPick={() => {}} />
+			) : null}
 			<pre>{me ? JSON.stringify(me, null, 2) : ''}</pre>
 		</div>
 	)
