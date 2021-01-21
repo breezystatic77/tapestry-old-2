@@ -29,7 +29,7 @@
 		"morgan": "^1.9.1",
 		"pg": "^7.17.0",
 		"reflect-metadata": "^0.1.10",
-		"socket.io": "^2.3.0",
+		"socket.io": "^2.4.0",
 		"socketio-jwt-auth": "^0.1.0",
 		"typeorm": "0.2.22",
 		"winston": "^3.2.1"
